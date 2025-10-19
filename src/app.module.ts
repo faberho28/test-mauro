@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { FavoriteModule } from './favorite/favorite.module';
 import { VerifyTokenMiddleware } from './middlewares/auth/middlware-token';
+import { PokemonModule } from './pokemon/pokemon.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { VerifyTokenMiddleware } from './middlewares/auth/middlware-token';
     UserModule,
     DatabaseModule,
     FavoriteModule,
+    PokemonModule,
   ],
   controllers: [AppController],
   providers: [AppService, VerifyTokenMiddleware],

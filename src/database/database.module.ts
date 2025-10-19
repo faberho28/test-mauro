@@ -12,10 +12,13 @@ import { User } from 'src/user/entities/user.entity';
       useFactory: (configService: ConfigService) => ({
         //Tipo de base de datos
         type: 'postgres',
+
         //Host donde está alojado la BD
         host: configService.get<string>('DB_HOST'),
+
         // Puerto debe ser un número
         port: parseInt(configService.get<string>('DB_PORT', '5432'), 10),
+
         //Usuario del postgresSQL
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASS'),
