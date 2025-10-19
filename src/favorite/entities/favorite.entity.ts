@@ -3,8 +3,8 @@ import { User } from 'src/user/entities/user.entity';
 
 @Entity()
 export class Favorite {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   pokemonName: string;
@@ -16,5 +16,5 @@ export class Favorite {
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'CASCADE', // si se borra el usuario, se borran sus favoritos
   })
-  user: User;
+  user: string;
 }

@@ -29,7 +29,7 @@ export class FavoriteService {
 
   async findAll(userId: string): Promise<Favorite[]> {
     return await this.favoriteRepository.find({
-      where: { user: { id: userId } },
+      where: { user: userId },
       relations: ['user'],
       order: { id: 'DESC' }, // opcional: ordena los más recientes primero
     });
@@ -37,7 +37,7 @@ export class FavoriteService {
 
   //Obtiene un favorito por ID
 
-  async findOne(id: number): Promise<Favorite> {
+  async findOne(id: string): Promise<Favorite> {
     const favorite = await this.favoriteRepository.findOne({ where: { id } });
 
     if (!favorite) {
@@ -50,7 +50,7 @@ export class FavoriteService {
   //Actualiza un favorito existente
 
   async update(
-    id: number,
+    id: string,
     updateFavoriteDto: UpdateFavoriteDto,
   ): Promise<Favorite> {
     const favorite = await this.findOne(id); // Reutiliza la validación anterior

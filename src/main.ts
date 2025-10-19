@@ -5,11 +5,25 @@ import {
   SwaggerCustomOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { RequestMethod } from '@nestjs/common';
+import basicAuth from 'express-basic-auth';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const port = process.env.PORT || 3000;
-  app.setGlobalPrefix('api/v1');
+  app.use(
+    ['/docs'],
+    basicAuth({
+      challenge: true,
+      users: {
+        admin: 'admin',
+      },
+    }),
+  );
+  //Excluir las rutas de autenticación
+  app.setGlobalPrefix('api/v1', {
+    exclude: [{ path: 'user', method: RequestMethod.ALL }],
+  });
   const options = new DocumentBuilder()
     .setTitle('Pokemons api')
     .setDescription('docuentacion de api')

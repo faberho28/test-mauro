@@ -13,5 +13,5 @@ export class CreateFavoriteDto {
 
   @IsNotEmpty()
   @IsString()
-  userId: string;
+  user: string;
 }
