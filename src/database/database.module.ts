@@ -21,7 +21,10 @@ import { User } from 'src/user/entities/user.entity';
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_NAME'),
         entities: [User, Favorite],
-        synchronize: true,
+        // synchronize: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
     }),
   ],
