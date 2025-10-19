@@ -27,18 +27,27 @@ export class FavoriteService {
 
   //Lista los favoritos de un usuario autenticado
 
-  async findAll(userId: string): Promise<Favorite[]> {
-    return await this.favoriteRepository.find({
-      where: { user: userId },
+  async findAll(user: string): Promise<Favorite[]> {
+    const favorites = await this.favoriteRepository.find({
+      where: { user: user },
       relations: ['user'],
-      order: { id: 'DESC' }, // opcional: ordena los más recientes primero
+      order: { id: 'DESC' }, // los más recientes primero
     });
+
+    if (!favorites.length) {
+      throw new NotFoundException('El usuario no tiene favoritos registrados');
+    }
+
+    return favorites;
   }
 
   //Obtiene un favorito por ID
 
   async findOne(id: string): Promise<Favorite> {
-    const favorite = await this.favoriteRepository.findOne({ where: { id } });
+    const favorite = await this.favoriteRepository.findOne({
+      where: { id: id },
+      relations: ['user'],
+    });
 
     if (!favorite) {
       throw new NotFoundException(`Favorito con ID ${id} no encontrado`);
@@ -53,8 +62,7 @@ export class FavoriteService {
     id: string,
     updateFavoriteDto: UpdateFavoriteDto,
   ): Promise<Favorite> {
-    const favorite = await this.findOne(id); // Reutiliza la validación anterior
-
+    const favorite = await this.findOne(id); // reutiliza validación
     Object.assign(favorite, updateFavoriteDto);
     return await this.favoriteRepository.save(favorite);
   }
@@ -68,6 +76,6 @@ export class FavoriteService {
       throw new NotFoundException(`Favorito con ID ${id} no existe`);
     }
 
-    return { message: 'Favorito eliminado correctamente' };
+    return { message: 'Pokemon Favorito eliminado correctamente' };
   }
 }
