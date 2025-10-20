@@ -96,3 +96,124 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+[PokeAPI.postman_collection.json](https://github.com/user-attachments/files/22993654/PokeAPI.postman_collection.json)
+{
+	"info": {
+		"_postman_id": "c7fa2b8d-3116-41ea-a6b7-9f5c25afae3f",
+		"name": "PokeAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23415400"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"email@yopmail.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://54.156.16.105:3000/api/v1/user/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Primer nombre\",\r\n    \"lastname\": \"Apellido\",\r\n    \"email\": \"correo@email.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://54.156.16.105:3000/api/v1/user/register"
+			},
+			"response": []
+		},
+		{
+			"name": "Favoritos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://54.156.16.105:3000/api/v1/favorite"
+			},
+			"response": []
+		},
+		{
+			"name": "Añadir Favorito",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": "http://54.156.16.105:3000/api/v1/favorite"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Favorito",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": "http://54.156.16.105:3000/api/v1/favorite"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pokemons",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": "http://54.156.16.105:3000/api/v1/pokemon"
+			},
+			"response": []
+		}
+	]
+}
