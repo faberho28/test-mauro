@@ -16,5 +16,5 @@ export class Favorite {
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'CASCADE', // si se borra el usuario, se borran sus favoritos
   })
-  user: string;
+  user: User;
 }

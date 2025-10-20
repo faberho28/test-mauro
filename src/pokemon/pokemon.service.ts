@@ -7,20 +7,22 @@ export class GraphqlApiService {
 
   async fetchPokemonByName(name: string) {
     const query = `
-      query getItems{item{name,id}}
+      query getItems($pattern: String!) {
+        item(where: { name: { _ilike: $pattern } }) {
+          id
+          name
+        }
+      }
     `;
-    console.log('funciona');
-    const variables = { name: 'picachu' };
-
     try {
+      const pattern = name && name.trim() !== '' ? `%${name}%` : '%';
+
       const response = await axios.post(
         this.endpoint,
-        { query },
+        { query, variables: { pattern } },
         { headers: { 'Content-Type': 'application/json' } },
       );
-
-      //return response.data.data.pokemon;
-      return response.data.data.item;
+      return response?.data?.data?.item || [];
     } catch (error) {
       console.error('Error en GraphQL:', error);
       throw new InternalServerErrorException(

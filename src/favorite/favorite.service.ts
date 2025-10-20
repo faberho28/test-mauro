@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Favorite } from './entities/favorite.entity';
 import { Repository } from 'typeorm';
 import { NotFoundException } from '@nestjs/common';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class FavoriteService {
@@ -12,13 +13,30 @@ export class FavoriteService {
   constructor(
     @InjectRepository(Favorite)
     private readonly favoriteRepository: Repository<Favorite>,
+
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {}
 
   // Crea un nuevo registro de favorito
 
-  async create(createFavoriteDto: CreateFavoriteDto): Promise<Favorite> {
+  async create(createFavoriteDto: CreateFavoriteDto) {
     try {
-      const favorite = this.favoriteRepository.create(createFavoriteDto);
+      // Supongamos que tienes el id del usuario en createFavoriteDto.user
+      const user = await this.userRepository.findOne({
+        where: { id: createFavoriteDto.user },
+      });
+
+      if (!user) {
+        throw new Error('Usuario no encontrado');
+      }
+
+      const favorite = this.favoriteRepository.create({
+        pokemonName: createFavoriteDto.pokemonName,
+        pokemonId: createFavoriteDto.pokemonId,
+        user,
+      });
+
       return await this.favoriteRepository.save(favorite);
     } catch (error) {
       throw new Error(error || 'no encontrado favorito');
@@ -27,9 +45,13 @@ export class FavoriteService {
 
   //Lista los favoritos de un usuario autenticado
 
-  async findAll(user: string): Promise<Favorite[]> {
+  async findAll(userEmail: string): Promise<Favorite[]> {
     const favorites = await this.favoriteRepository.find({
-      where: { user: user },
+      where: {
+        user: {
+          email: userEmail,
+        },
+      },
       relations: ['user'],
       order: { id: 'DESC' }, // los más recientes primero
     });
@@ -69,7 +91,7 @@ export class FavoriteService {
 
   //Elimina un favorito por ID
 
-  async remove(id: number): Promise<{ message: string }> {
+  async remove(id: string): Promise<{ message: string }> {
     const result = await this.favoriteRepository.delete(id);
 
     if (result.affected === 0) {

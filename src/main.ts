@@ -22,7 +22,7 @@ async function bootstrap() {
   );
   //Excluir las rutas de autenticación
   app.setGlobalPrefix('api/v1', {
-    exclude: [{ path: 'user', method: RequestMethod.ALL }],
+    exclude: [{ path: 'auth', method: RequestMethod.ALL }],
   });
   const options = new DocumentBuilder()
     .setTitle('Pokemons api')

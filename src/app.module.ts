@@ -27,6 +27,9 @@ export class AppModule {
     consumer
       .apply(VerifyTokenMiddleware)
       //son las rutas que se quieren privatizar
-      .forRoutes({ path: 'favorite', method: RequestMethod.ALL });
+      .forRoutes(
+        { path: 'favorite', method: RequestMethod.ALL },
+        { path: 'pokemon', method: RequestMethod.ALL },
+      );
   }
 }
